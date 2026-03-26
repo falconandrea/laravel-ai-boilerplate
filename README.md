@@ -1,6 +1,6 @@
 # 🤖 AI Agent Development Template
 
-A production-ready template for building Laravel 13 projects with AI agents. Combines **persistent project memory** with the **skills ecosystem** (skills.sh) to give agents both procedural knowledge and project-specific context — without context drift across sessions.
+A production-ready template for building Laravel 13 projects with AI agents. Combines **persistent project memory** with **Laravel Boost** to give agents robust procedural knowledge and project-specific context — without context drift across sessions.
 
 Compatible with Antigravity, OpenCode, Claude Code, and any agent that reads `AGENTS.md`.
 
@@ -11,7 +11,7 @@ Two problems kill AI-assisted development:
 1. **Context drift** — the agent forgets what was built, what went wrong, what decisions were made
 2. **Procedural ignorance** — the agent doesn't know your stack's best practices and reinvents them badly every time
 
-This template solves both. The `.ai/` folder handles project memory (state specific to *this* project). The skills ecosystem handles procedural knowledge (best practices for PHP, Laravel, security, testing — maintained by the community).
+This template solves both. The `.ai/` folder handles project memory (state specific to *this* project). Laravel Boost locally ensures agents understand best practices for PHP, Laravel, and your specific implementation.
 
 ## Quick Start
 
@@ -23,45 +23,13 @@ cd my-new-project
 rm -rf .git && git init
 ```
 
-### 2. Install skills
+### 2. Configure project
 
 ```bash
-bash setup-skills.sh
+bash setup-laravel.sh
 ```
 
-Or with arguments:
-
-```bash
-bash setup-skills.sh --agent all
-bash setup-skills.sh --agent opencode
-bash setup-skills.sh --agent antigravity
-```
-
-The script will install the following skills:
-
-#### General
-
-| Skill | What it covers |
-|---|---|
-| systematic-debugging | Structured debug before fixing |
-| test-driven-development | TDD workflow |
-| webapp-testing | Playwright, seeds, auth |
-| security-review | Secrets, SQL injection, misconfig |
-| verification-before-completion | Self-check before marking done |
-
-#### Laravel
-
-| Skill | What it covers |
-|---|---|
-| superpowers-laravel | Eloquent, API resources, policies |
-| php-pro | PHP 8.3+, PHPStan, Pest, strict typing |
-
-To keep skills up to date:
-
-```bash
-npx skills check    # see what has updates
-npx skills update   # update everything
-```
+Follow the interactive prompts to install standard packages like Sail, Telescope, Sanctum, Activitylog, or set up queue tables automatically. **Laravel Boost** is installed by default as it is required for the AI agent context.
 
 ### 3. Run project setup
 
@@ -86,7 +54,7 @@ npx skills update   # update everything
 ```
 .
 ├── AGENTS.md                 # Always-on rules (no useEffect, TS strict, naming...)
-├── setup-skills.sh           # Skill installer + TECH_STACK setup — run once per project
+
 │
 └── .ai/
     ├── context/              # Project-specific docs (filled during /setup)
@@ -130,7 +98,7 @@ npx skills update   # update everything
 
 | Layer | What it contains | Who maintains it |
 |---|---|---|
-| `AGENTS.md` + skills | Procedural knowledge — how to write good code | Community + you |
+| `AGENTS.md` + Boost | Procedural knowledge — how to write good code | Community + you |
 | `.ai/memory/` + `.ai/context/` | Project state — what was built, decided, broken | You + the agent |
 
 ### Session flow
