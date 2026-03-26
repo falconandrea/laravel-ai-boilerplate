@@ -37,10 +37,24 @@ bash setup-skills.sh --agent opencode
 bash setup-skills.sh --agent antigravity
 ```
 
-The script will:
-- Install skills for your chosen stack
-- Copy the correct TECH_STACK template to `.ai/context/TECH_STACK.md`
-- Clean up template files
+The script will install the following skills:
+
+#### General
+
+| Skill | What it covers |
+|---|---|
+| systematic-debugging | Structured debug before fixing |
+| test-driven-development | TDD workflow |
+| webapp-testing | Playwright, seeds, auth |
+| security-review | Secrets, SQL injection, misconfig |
+| verification-before-completion | Self-check before marking done |
+
+#### Laravel
+
+| Skill | What it covers |
+|---|---|
+| superpowers-laravel | Eloquent, API resources, policies |
+| php-pro | PHP 8.3+, PHPStan, Pest, strict typing |
 
 To keep skills up to date:
 
@@ -140,27 +154,6 @@ npx skills update   # update everything
 | `/start` | `workflows/start.md` | Reads memory, summarises state |
 | `/setup` | `workflows/setup.md` | Full discovery → generates context docs |
 | `/feature` | `workflows/feature.md` | Plan mode → PRD → task list |
-
----
-
-## Skills Installed by setup-skills.sh
-
-### Common (both stacks)
-
-| Skill | What it covers |
-|---|---|
-| systematic-debugging | Structured debug before fixing |
-| test-driven-development | TDD workflow |
-| webapp-testing | Playwright, seeds, auth |
-| security-review | Secrets, SQL injection, misconfig |
-| verification-before-completion | Self-check before marking done |
-
-### Laravel
-
-| Skill | What it covers |
-|---|---|
-| superpowers-laravel | Eloquent, API resources, policies |
-| php-pro | PHP 8.3+, PHPStan, Pest, strict typing |
 
 ---
 

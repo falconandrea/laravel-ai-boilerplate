@@ -66,7 +66,7 @@ install_skill() {
   local skill_flags="$2"
   info "Installing from ${repo} ${skill_flags}..."
   # shellcheck disable=SC2086
-  npx skills add "$repo" $skill_flags $AGENT_FLAGS 2>&1 | grep -v "^$" || true
+  npx --yes skills add "$repo" $skill_flags $AGENT_FLAGS || true
   log "OK: ${repo}"
 }
 
@@ -93,11 +93,6 @@ section "Tech stack context"
 info "Laravel projects use Laravel Boost for context — no TECH_STACK template needed."
 info "TECH_STACK.md will be filled during /setup or by Boost."
 
-# Remove templates folder if present — no longer needed
-if [[ -d ".ai/templates" ]]; then
-  rm -rf ".ai/templates"
-  log "Removed .ai/templates/ (not used in Laravel)"
-fi
 
 section "Setup complete"
 echo ""
