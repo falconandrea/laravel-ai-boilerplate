@@ -101,7 +101,7 @@ if $INSTALL_TELESCOPE; then
     info "Installing Laravel Telescope..."
     composer require laravel/telescope --dev
     php artisan telescope:install || true
-    php artisan migrate || warn "Migration failed (is database running?). Run manually later."
+    php artisan migrate >/dev/null 2>&1 || warn "Migration deferred (is database running?). Run manually later."
     inject_schedule "Schedule::command('telescope:prune --hours=48')->daily();"
     log "Telescope installed and scheduled."
 fi
@@ -117,7 +117,7 @@ if $INSTALL_SANCTUM; then
     info "Installing Laravel Sanctum..."
     composer require laravel/sanctum
     php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider" || true
-    php artisan migrate || warn "Migration failed. Run manually later."
+    php artisan migrate >/dev/null 2>&1 || warn "Migration deferred. Run manually later."
     log "Sanctum installed."
 fi
 
@@ -125,17 +125,14 @@ if $INSTALL_ACTIVITYLOG; then
     info "Installing Spatie Activitylog..."
     composer require spatie/laravel-activitylog
     php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="activitylog-migrations" || true
-    php artisan migrate || warn "Migration failed. Run manually later."
+    php artisan migrate >/dev/null 2>&1 || warn "Migration deferred. Run manually later."
     inject_schedule "Schedule::command('activitylog:clean --force')->daily();"
     log "Activitylog installed and scheduled."
 fi
 
 if $SETUP_QUEUES; then
     info "Setting up Database Queues..."
-    php artisan queue:table || true
-    php artisan queue:batches-table || true
-    php artisan queue:failed-table || true
-    php artisan migrate || warn "Migration failed. Run manually later."
+    # Laravel 11+ ships with queue tables by default.
     inject_schedule "Schedule::command('queue:prune-failed --hours=360')->daily();"
     log "Queues configured and scheduled."
 fi
