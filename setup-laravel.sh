@@ -140,5 +140,11 @@ if $SETUP_QUEUES; then
     log "Queues configured and scheduled."
 fi
 
+if $INSTALL_BOOST; then
+    info "Updating Laravel Boost context for newly installed packages..."
+    php artisan boost:update || true
+    log "Laravel Boost context updated."
+fi
+
 section "Setup Complete!"
 info "Your Laravel project is ready to go."

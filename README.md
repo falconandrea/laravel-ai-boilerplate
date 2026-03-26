@@ -13,6 +13,10 @@ Two problems kill AI-assisted development:
 
 This template solves both. The `.ai/` folder handles project memory (state specific to *this* project). Laravel Boost locally ensures agents understand best practices for PHP, Laravel, and your specific implementation.
 
+## Supported Stacks
+
+**Laravel 13** — PHP 8.3, Laravel Sail, MySQL 8 / PostgreSQL
+
 ## Quick Start
 
 ### 1. Clone and initialize
@@ -29,7 +33,7 @@ rm -rf .git && git init
 bash setup-laravel.sh
 ```
 
-Follow the interactive prompts to install standard packages like Sail, Telescope, Sanctum, Activitylog, or set up queue tables automatically. **Laravel Boost** is installed by default as it is required for the AI agent context.
+This interactive CLI tool acts as a project initializer. It will prompt you to select the packages you want to install (e.g., Sail, Telescope, Sanctum, Activitylog, or Database Queues). For each selected component, it automatically runs `composer require`, executes the relevant configuration commands, and injects scheduled tasks directly into your `routes/console.php`. **Laravel Boost** is installed seamlessly by default as it is required for the AI agent context.
 
 ### 3. Run project setup
 
@@ -123,24 +127,6 @@ Follow the interactive prompts to install standard packages like Sail, Telescope
 | `/setup` | `workflows/setup.md` | Full discovery → generates context docs |
 | `/feature` | `workflows/feature.md` | Plan mode → PRD → task list |
 
----
-
-## Laravel Boost
-
-Laravel projects use **Laravel Boost** for context generation instead of a TECH_STACK template:
-
-```bash
-composer require laravel/boost --dev
-php artisan boost:install
-```
-
-Boost writes to `.ai/guidelines/` (separate from your files) and generates `.mcp.json` for MCP tool access. It does not touch `AGENTS.md` or `.ai/memory/`. The `TECH_STACK.md` for Laravel projects is filled during `/setup` with project-specific decisions (database, auth, deployment, etc.).
-
----
-
-## Supported Stacks
-
-**Laravel 13** — PHP 8.3, Laravel Sail, MySQL 8 / PostgreSQL
 
 ---
 
