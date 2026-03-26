@@ -19,12 +19,23 @@ This template solves both. The `.ai/` folder handles project memory (state speci
 
 ## Quick Start
 
-### 1. Clone and initialize
+### 1. Prepare your Laravel project
+
+You can apply this boilerplate to a fresh or existing Laravel project.
+
+**For a new project:**
+Run the following command to install Laravel:
+```bash
+composer create-project laravel/laravel my-new-project
+cd my-new-project
+```
+
+Then, import the boilerplate files into your project:
 
 ```bash
-git clone <this-repo> my-new-project
-cd my-new-project
-rm -rf .git && git init
+git clone <this-repo-url> temp-ai-boilerplate
+cp -r temp-ai-boilerplate/.ai temp-ai-boilerplate/AGENTS.md temp-ai-boilerplate/setup-laravel.sh .
+rm -rf temp-ai-boilerplate
 ```
 
 ### 2. Configure project
