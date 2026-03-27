@@ -1,4 +1,4 @@
-# 🤖 AI Agent Development Template
+# 🤖 Laravel AI Agent Boilerplate
 
 A production-ready template for building Laravel 13 projects with AI agents. Combines **persistent project memory** with **Laravel Boost** to give agents robust procedural knowledge and project-specific context — without context drift across sessions.
 
@@ -69,7 +69,6 @@ This interactive CLI tool acts as a project initializer. It will prompt you to s
 ```
 .
 ├── AGENTS.md                 # Always-on rules (no useEffect, TS strict, naming...)
-
 │
 └── .ai/
     ├── context/              # Project-specific docs (filled during /setup)
@@ -97,7 +96,6 @@ This interactive CLI tool acts as a project initializer. It will prompt you to s
     │   └── deployment.md
     │
     ├── guidelines/           # Reserved for Laravel Boost auto-generated files
-    │
     │
     └── workflows/
         ├── start.md          # /start
