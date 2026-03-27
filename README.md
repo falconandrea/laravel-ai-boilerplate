@@ -15,48 +15,71 @@ This template solves both. The `.ai/` folder handles project memory (state speci
 
 ## Supported Stacks
 
-**Laravel 13** — PHP 8.3, Laravel Sail, MySQL 8 / PostgreSQL
+**Laravel 13** — PHP 8.3+, Laravel Sail, MySQL 8 / PostgreSQL
 
-## Quick Start
+---
+
+## 🛠 Prerequisites
+
+Ensure you have the following installed on your machine:
+
+- **PHP 8.3+**
+- **Composer**
+- **Git**
+- **Docker** (if using Laravel Sail)
+
+---
+
+## 🚀 Quick Start
 
 ### 1. Prepare your Laravel project
 
-You can apply this boilerplate to a fresh or existing Laravel project.
+You can apply this boilerplate to a **fresh** or **existing** Laravel project.
 
-**For a new project:**
-Run the following command to install Laravel:
+#### A. New Project
+Run the followng to create a fresh Laravel application:
 ```bash
-composer create-project laravel/laravel my-new-project
-cd my-new-project
+composer create-project laravel/laravel my-app
+cd my-app
 ```
 
-Then, import the boilerplate files into your project:
-
+#### B. Existing Project
+Simply navigate to your project root:
 ```bash
-git clone <this-repo-url> temp-ai-boilerplate
-cp -r temp-ai-boilerplate/.ai temp-ai-boilerplate/AGENTS.md temp-ai-boilerplate/setup-laravel.sh .
-rm -rf temp-ai-boilerplate
+cd your-existing-project
 ```
 
-### 2. Configure project
+#### C. Inject Boilerplate
+Copy the AI memory files and setup scripts into your project:
+```bash
+git clone https://github.com/falconandrea/laravel-ai-boilerplate temp-ai
+cp -r temp-ai/.ai temp-ai/AGENTS.md temp-ai/setup-laravel.sh .
+rm -rf temp-ai
+```
 
+### 2. Technical Configuration
+Run the interactive CLI to install and configure Laravel packages (Sail, Telescope, Sanctum, etc.):
 ```bash
 bash setup-laravel.sh
 ```
+> [!NOTE]
+> This script handles the **technical stack**. It runs `composer require` and configures your Laravel environment.
 
-This interactive CLI tool acts as a project initializer. It will prompt you to select the packages you want to install (e.g., Sail, Telescope, Sanctum, Activitylog, or Database Queues). For each selected component, it automatically runs `composer require`, executes the relevant configuration commands, and injects scheduled tasks directly into your `routes/console.php`. **Laravel Boost** is installed seamlessly by default as it is required for the AI agent context.
-
-### 3. Run project setup
+### 3. AI Context Discovery
+Initialize the AI agent's understanding of your specific project requirements:
 
 **Antigravity / OpenCode:**
 ```
 /setup
 ```
 
-**Other agents:** paste `.ai/prompts/project_setup.md` in chat and answer the questions.
+**Other agents:** 
+Paste the contents of `.ai/prompts/project_setup.md` into your chat.
 
-### 4. Start building
+> [!TIP]
+> This step is where the AI asks you about your **product vision, features, and architecture** to populate `.ai/context/`.
 
+### 4. Start Building
 ```
 /start            → restores full session context
 /feature [desc]   → plan mode: PRD + task list
