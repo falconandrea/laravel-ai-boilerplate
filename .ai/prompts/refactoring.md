@@ -11,9 +11,9 @@ REFACTORING TARGET: [What needs to be refactored]
 
 Examples:
 - "Extract UserService from UserController in Laravel"
-- "Split Dashboard component into smaller pieces"
-- "Improve type safety in API routes"
-- "Remove code duplication in form components"
+- "Split a large Livewire component into nested ones"
+- "Improve strict typing in Model attributes"
+- "Move validation logic from Controller to FormRequest"
 
 ---
 
@@ -43,8 +43,8 @@ First, analyze the current code:
 
 Examples:
 - "Controller has 200 lines and does too much"
-- "Component has 10 useState calls, state is scattered"
-- "Same validation logic copy-pasted in 5 files"
+- "Livewire component has too many properties, state is scattered"
+- "Same validation logic copy-pasted in 5 controllers"
 
 ### Why does it need refactoring?
 [Business or technical justification]

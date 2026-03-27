@@ -116,7 +116,7 @@ Review and verify all environment variables:
   - File uploads validated (type, size)
 
 - [ ] **SQL Injection protection**
-  - Using ORM (Eloquent/Prisma): [Yes]
+  - Using ORM (Eloquent): [Yes]
   - No raw queries: [Verified]
 
 - [ ] **XSS protection**
