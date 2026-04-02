@@ -93,6 +93,12 @@ Paste the contents of `.ai/prompts/project_setup.md` into your chat.
 .
 ├── AGENTS.md                 # Always-on rules (no useEffect, TS strict, naming...)
 │
+├── .agents/                  # Agent automated execution context
+│   └── workflows/
+│       ├── start.md          # /start (Restore context)
+│       ├── setup.md          # /setup (Initial discovery)
+│       └── feature.md        # /feature (Plan & Implement)
+│
 └── .ai/
     ├── context/              # Project-specific docs (filled during /setup)
     │   ├── TECH_STACK.md
@@ -118,12 +124,7 @@ Paste the contents of `.ai/prompts/project_setup.md` into your chat.
     │   ├── refactoring.md
     │   └── deployment.md
     │
-    ├── guidelines/           # Reserved for Laravel Boost auto-generated files
-    │
-    └── workflows/
-        ├── start.md          # /start
-        ├── setup.md          # /setup
-        └── feature.md        # /feature
+    └── guidelines/           # Reserved for Laravel Boost auto-generated files
 ```
 
 ---
