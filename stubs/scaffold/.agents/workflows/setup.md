@@ -6,7 +6,7 @@ description: New project setup protocol - interrogate requirements and generate 
 
 1. Read `AGENTS.md` to internalize global rules. Activate **PLANNING MODE**. No code will be written during this phase.
 
-2. Verify that the Boilerplate CLI has already been run (check that `.ai/context/TECH_STACK.md` contains the correct stack template, not just the placeholder). If not, instruct the developer to run `php boilerplate install` first.
+2. Verify that `.ai/context/TECH_STACK.md` contains the correct stack details (not just the placeholder). If not, instruct the developer to fill it in first.
 
 3. Follow the full interrogation framework in `.ai/prompts/project_setup.md` to run discovery with the developer.
    Ask questions phase by phase and wait for answers.

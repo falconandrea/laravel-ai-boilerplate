@@ -31,9 +31,11 @@ vendor/
 # Build / Output
 # ========================================
 /build/
+/builds/
 /dist/
 /.next/
 /out/
+composer.lock
 
 # ========================================
 # Laravel Specific

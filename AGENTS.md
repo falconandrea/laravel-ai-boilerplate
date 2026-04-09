@@ -1,96 +1,44 @@
-# AI Agent Operating System
+# AI Agent Operating System — Laravel Boilerplate CLI
 
-> **READ THIS FIRST**: This file tells AI how to work with this project.
-
-## Skills
-
-This project uses the skills.sh system for procedural best practices.
-To see installed skills: `npx skills list`
-To update: `npx skills update`
+> **READ THIS FIRST**: This file tells AI how to work with this CLI project.
 
 ## Code Rules
 
 - Strict PHP typing: always use `declare(strict_types=1);`
-- Use robust Laravel features (Eloquent, FormRequests, Policies) instead of raw PHP alternatives
-- Follow naming conventions defined in project documentation
 - All `.ai/` markdown files and code comments MUST be in English
+- Follow PSR-4 autoloading under `App\` namespace
+- Use Laravel Zero conventions
 
 ---
 
 ## 🎯 Core Directives
 
 ### Session Start Protocol
-1. Read `.ai/memory/progress.md` - current state
-2. Read `.ai/memory/lessons.md` - past mistakes
-3. Check `.ai/memory/blockers.md` - current issues
-4. Check `.ai/context/TECH_STACK.md` - which stack (Laravel)
-5. Ask: "Ready to continue with [current task]?"
+1. Read `.ai/memory/progress.md` — current state
+2. Read `.ai/memory/lessons.md` — past mistakes
+3. Read `.ai/context/TECH_STACK.md` — CLI stack (Laravel Zero)
+4. Ask: "Ready to continue?"
 
-### Operating Modes
+### Architecture
 
-#### 🧠 PLANNING MODE (default)
-**Trigger**: Start of session, new feature request, architectural decision
+- **Entry point**: `boilerplate` (PHP CLI script)
+- **Main command**: `install` (`App\Commands\InstallCommand`)
+- **Installers**: `App\Installers\*` — each extends `BaseInstaller`
+- **File ops**: `App\Support\FileModifier` — str_replace-based, no regex
+- **Stubs**: `stubs/scaffold/` — template files copied into target projects
 
-**Actions**:
-- Ask questions using `.ai/prompts/create_prd.md` for new features
-- Propose solutions, DON'T implement
-- Update `.ai/context/` files with decisions
-- Get explicit "approved to implement" before switching to ACTING MODE
+### Adding a New Installer
 
-**Exit**: User says "Approved" or "Start implementing"
-
-#### ⚡ ACTING MODE
-**Trigger**: After planning approval, or for small changes
-
-**Actions**:
-- Write code following `.ai/context/TECH_STACK.md` versions STRICTLY
-- Update `.ai/memory/progress.md` after each completed task
-- Mark tasks `[x]` in feature task files
-
-#### 🔍 REVIEW MODE
-**Trigger**: After implementation, or when user says "review"
-
-**Actions**:
-- Check for violations of `.ai/memory/lessons.md`
-- Verify against `.ai/context/PRD.md` acceptance criteria
-- Propose improvements
-
-#### 🐛 DEBUG MODE
-**Trigger**: When user says "debug this" or reports a bug
-
-**Actions**:
-- Use `systematic-debugging` skill framework
-- Check `.ai/memory/lessons.md` for similar past issues
-- Document solution in `.ai/memory/lessons.md` if it's a novel fix
+1. Create `app/Installers/YourInstaller.php` extending `BaseInstaller`
+2. Implement `name()` and `install()`
+3. Register it in `InstallCommand::$installerMap` and `$labels`
 
 ---
 
-## 📚 File Reference Map
-
-### Session Start
-1. `AGENTS.md` (this file)
-2. `.ai/memory/progress.md` - what's done
-3. `.ai/memory/lessons.md` - what not to do
-4. `.ai/context/TECH_STACK.md` - which stack
-
-### New Feature Workflow
-1. Use `.ai/prompts/create_prd.md` → Creates PRD
-2. Use `.ai/prompts/generate_tasks.md` → Creates task list
-3. Work through tasks, marking `[x]` on completion
-4. Feature files saved in `.ai/features/[feature-name]/`
-
-### Writing Code
-
-- `.ai/context/database_schema.mmd`
-
----
-
-## 🚨 Red Flags - Stop and Ask
-- Feature not in PRD.md
-- Library version different from TECH_STACK.md
-- Making breaking changes to API
-- Repeating a mistake from lessons.md
-- **Laravel**: Using helpers not compatible with Laravel 13
+## 🚨 Red Flags — Stop and Ask
+- Making breaking changes to existing installers
+- Modifying `BaseInstaller` public API
+- Adding dependencies not needed for a CLI tool
 
 ---
 
@@ -98,47 +46,13 @@ To update: `npx skills update`
 After every task:
 - Update `.ai/memory/progress.md` with what was completed
 - If mistake made, update `.ai/memory/lessons.md`
-- If blocked, update `.ai/memory/blockers.md`
-- Mark feature task as `[x]` if applicable
-
----
-
-## 💬 Quick Commands
-- "Start planning" → Enter PLANNING MODE
-- "Show progress" → Read progress.md
-- "What's next?" → Read next uncompleted task
-- "Review this" → Enter REVIEW MODE
-- "Any lessons?" → Read lessons.md
-- "Debug this" → Enter DEBUG MODE
-- "New feature: [description]" → Use create_prd prompt
-
----
-
-## 🔁 Antigravity Workflows
-
-These slash commands are available when using the **Antigravity AI agent**. Each maps to a workflow file in `.agents/workflows/`.
-
-| Command | Workflow File | When to Use |
-|---------|--------------|-------------|
-| `/start` | `workflows/start.md` | Beginning of every work session — reads all memory files and summarises the project state |
-| `/setup` | `workflows/setup.md` | Starting a brand-new project — runs the full 8-phase interrogation and generates all `.ai/context/` docs |
-| `/feature` | `workflows/feature.md` | Adding a new feature — creates a PRD with clarifying questions, gets approval, then generates tasks |
-
-### When the agent should trigger each workflow automatically:
-- **Session start** → remind the user to run `/start` if memory files haven't been read yet
-- **New project detected** (empty `TECH_STACK.md` or `progress.md`) → suggest `/setup`
-- **Feature request** ("add X", "build Y", "implement Z") → suggest `/feature` before writing any code
 
 ---
 
 ## ⚠️ Critical Rules
 
-### Never Break These
-1. **NO assumptions** - ask before acting
+1. **NO assumptions** — ask before acting
 2. **ALWAYS** check TECH_STACK.md for versions
 3. **ALWAYS** update progress.md after completing work
-4. **NEVER** use deprecated patterns from lessons.md
-5. **NEVER** skip error handling
-6. **Laravel**: NEVER bypass Eloquent ORM without permission
-8. **ALL `.ai/` markdown files MUST be written in English** - No exceptions
-9. **ALL code comments MUST be written in English** - No exceptions
+4. **NEVER** skip error handling
+5. **ALL code comments MUST be in English**

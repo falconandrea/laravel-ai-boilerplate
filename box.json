@@ -1,0 +1,18 @@
+{
+    "chmod": "0755",
+    "directories": [
+        "app",
+        "bootstrap",
+        "config",
+        "stubs",
+        "vendor"
+    ],
+    "files": [
+        "boilerplate",
+        "composer.json"
+    ],
+    "exclude-composer-files": false,
+    "git-version": "git.version",
+    "main": "boilerplate",
+    "stub": true
+}

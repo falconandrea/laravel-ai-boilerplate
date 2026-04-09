@@ -22,7 +22,21 @@
 
 ## 📚 Lessons Log
 
-_No lessons logged yet. Add entries as mistakes are discovered during development._
+### 2026-04-09 - Testing - Interactive Prompt Mocking
+**What went wrong**: Laravel Prompts `Prompt::fake()` caused infinite loops and memory exhaustion in non-interactive shell tests.
+**Root cause**: The way `Prompt::fake()` interacts with the console input stream in some environments causes it to keep waiting for input that never comes, or re-render infinitely.
+**Impact**: Test suite crashed with "Out of memory" or hung indefinitely.
+**Solution**: Wrapped all `multiselect`, `confirm`, and `select` calls in a protected helper method (`promptSelection`) and added a static `promptRunner` callback that can be mocked in tests without using the real Prompts infrastructure.
+**Prevention**: Use the custom `fakePrompts()` and `fakeCommandPrompts()` helpers for all CLI interactivity tests.
+**Files involved**: `BaseInstaller.php`, `InstallCommand.php`, `Pest.php`, `InstallersTest.php`.
+
+### 2026-04-09 - Architecture - Method Name Conflicts in Laravel Zero
+**What went wrong**: Adding helper methods named `ask()` or `runCommand()` to a Command class caused fatal errors.
+**Root cause**: These names are already used (and marked as public or protected) by the parent `Illuminate\Console\Command` class.
+**Impact**: PHP Fatal error: "Declaration of ... must be compatible with ...".
+**Solution**: Rename helpers to unique names like `promptSelection()` and `executeShellCommand()`.
+**Prevention**: Check parent class methods before naming internal helpers in Laravel Command classes.
+**Files involved**: `InstallCommand.php`.
 
 ---
 
