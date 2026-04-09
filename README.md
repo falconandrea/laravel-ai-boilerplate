@@ -132,6 +132,20 @@ This ensures that Boost auto-discovers all newly installed packages and gives yo
 
 ---
 
+## 🧪 Running Tests
+
+```bash
+php boilerplate test
+```
+
+With coverage report:
+
+```bash
+php boilerplate test --coverage
+```
+
+---
+
 ## 🏗 Building a Phar
 
 Compile the CLI into a single distributable file:
