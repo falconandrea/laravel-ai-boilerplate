@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Commands\InstallCommand;
-
 test('install command runs full interactive flow successfully', function () {
     $dir = createTempProject();
     $commands = [];
     mockProcesses(true, $commands);
-    
+
     // Command-level prompts
     fakeCommandPrompts([
         ['scaffold', 'sail'], // Components
@@ -34,7 +32,7 @@ test('install command handles bootstrap mode for new projects', function () {
     $dir = createTempProject(); // empty dir, no artisan
     $commands = [];
     mockProcesses(true, $commands);
-    
+
     // Command-level prompts
     fakeCommandPrompts([
         'my-new-app',
@@ -61,7 +59,7 @@ test('install command handles bootstrap mode for new projects', function () {
 test('install command exits if no components selected', function () {
     $dir = createTempProject();
     touch($dir.'/artisan');
-    
+
     fakeCommandPrompts([
         [], // no selection
     ]);
@@ -75,10 +73,10 @@ test('install command exits if no components selected', function () {
 test('install command exits if installation cancelled', function () {
     $dir = createTempProject();
     touch($dir.'/artisan');
-    
+
     fakeCommandPrompts([
         ['scaffold'],
-        false // cancel
+        false, // cancel
     ]);
 
     $this->artisan('install', ['path' => $dir])

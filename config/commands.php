@@ -1,5 +1,10 @@
 <?php
 
+use NunoMaduro\LaravelConsoleSummary\SummaryCommand;
+use Symfony\Component\Console\Command\DumpCompletionCommand;
+use Symfony\Component\Console\Command\HelpCommand;
+use Symfony\Component\Console\Command\ListCommand;
+
 return [
 
     /*
@@ -13,7 +18,7 @@ return [
     |
     */
 
-    'default' => NunoMaduro\LaravelConsoleSummary\SummaryCommand::class,
+    'default' => SummaryCommand::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -55,10 +60,10 @@ return [
     */
 
     'hidden' => [
-        NunoMaduro\LaravelConsoleSummary\SummaryCommand::class,
-        Symfony\Component\Console\Command\DumpCompletionCommand::class,
-        Symfony\Component\Console\Command\HelpCommand::class,
-        Symfony\Component\Console\Command\ListCommand::class,
+        SummaryCommand::class,
+        DumpCompletionCommand::class,
+        HelpCommand::class,
+        ListCommand::class,
     ],
 
     /*

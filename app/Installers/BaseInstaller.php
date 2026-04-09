@@ -7,7 +7,6 @@ namespace App\Installers;
 use App\Support\FileModifier;
 use Symfony\Component\Process\Process;
 
-use function Laravel\Prompts\info;
 use function Laravel\Prompts\warning;
 
 /**
@@ -41,7 +40,7 @@ abstract class BaseInstaller
     /**
      * A callback to intercept and mock prompt selection during tests.
      *
-     * @var (callable(string, array<string, string>, string): string)|null
+     * @var (callable(string, string, array|string, string|array): string|array)|null
      */
     public static $promptRunner = null;
 

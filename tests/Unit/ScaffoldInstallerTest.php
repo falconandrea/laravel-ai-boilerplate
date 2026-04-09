@@ -55,7 +55,7 @@ test('scaffold installer updates boost if already installed', function () {
 
     // Simulate Boost already installed
     file_put_contents($dir.'/composer.json', json_encode([
-        'require-dev' => ['laravel/boost' => '^1.0']
+        'require-dev' => ['laravel/boost' => '^1.0'],
     ]));
 
     $installer = new ScaffoldInstaller($dir);

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Installers;
 
-use function Laravel\Prompts\select;
-
 /**
  * Installs and configures Laravel Breeze (starter kit).
  * Asks the user which stack to use: Blade, Livewire, or React.

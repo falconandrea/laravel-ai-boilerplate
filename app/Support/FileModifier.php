@@ -142,7 +142,7 @@ class FileModifier
         $traitStatement = "use {$traitName};";
 
         // Check if trait is already used (inside class body)
-        if (preg_match('/class\s+\w+[^{]*\{[^}]*use\s+' . preg_quote($traitName, '/') . '\s*;/s', $contents)) {
+        if (preg_match('/class\s+\w+[^{]*\{[^}]*use\s+'.preg_quote($traitName, '/').'\s*;/s', $contents)) {
             return false;
         }
 

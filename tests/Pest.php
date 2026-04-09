@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-use LaravelZero\Framework\Testing\TestCase;
+use App\Commands\InstallCommand;
+use App\Installers\BaseInstaller;
 use Laravel\Prompts\Prompt;
+use LaravelZero\Framework\Testing\TestCase;
 
 uses(TestCase::class)->in('Feature');
 uses(TestCase::class)->in('Unit');
@@ -48,8 +50,8 @@ function mockProcesses(bool $success = true, array &$capturedCommands = []): voi
         return $success;
     };
 
-    \App\Installers\BaseInstaller::$processRunner = $runner;
-    \App\Commands\InstallCommand::$processRunner = $runner;
+    BaseInstaller::$processRunner = $runner;
+    InstallCommand::$processRunner = $runner;
 }
 
 /**
@@ -57,7 +59,7 @@ function mockProcesses(bool $success = true, array &$capturedCommands = []): voi
  */
 function fakePrompts(array $answers): void
 {
-    \App\Installers\BaseInstaller::$promptRunner = function (string $type, string $label, array $options, mixed $default) use (&$answers) {
+    BaseInstaller::$promptRunner = function (string $type, string $label, array $options, mixed $default) use (&$answers) {
         return array_shift($answers) ?? $default;
     };
 }
@@ -67,10 +69,10 @@ function fakePrompts(array $answers): void
  */
 function resetMockProcesses(): void
 {
-    \App\Installers\BaseInstaller::$processRunner = null;
-    \App\Installers\BaseInstaller::$promptRunner = null;
-    \App\Commands\InstallCommand::$processRunner = null;
-    \App\Commands\InstallCommand::$promptRunner = null;
+    BaseInstaller::$processRunner = null;
+    BaseInstaller::$promptRunner = null;
+    InstallCommand::$processRunner = null;
+    InstallCommand::$promptRunner = null;
 }
 
 /**
@@ -78,7 +80,7 @@ function resetMockProcesses(): void
  */
 function fakeCommandPrompts(array $answers): void
 {
-    \App\Commands\InstallCommand::$promptRunner = function (string $type, string $label, mixed $options, mixed $default) use (&$answers) {
+    InstallCommand::$promptRunner = function (string $type, string $label, mixed $options, mixed $default) use (&$answers) {
         return array_shift($answers) ?? $default;
     };
 }

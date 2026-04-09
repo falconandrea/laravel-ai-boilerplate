@@ -92,7 +92,7 @@ test('injectBefore returns false for missing file', function () {
 // --- replace ---
 
 test('replace replaces target with replacement', function () {
-    $path = createTempFile("Hello World");
+    $path = createTempFile('Hello World');
 
     $result = FileModifier::replace($path, 'World', 'PHP');
 
@@ -101,7 +101,7 @@ test('replace replaces target with replacement', function () {
 });
 
 test('replace is idempotent when target no longer exists', function () {
-    $path = createTempFile("Hello World");
+    $path = createTempFile('Hello World');
 
     FileModifier::replace($path, 'World', 'PHP');
     $result = FileModifier::replace($path, 'World', 'PHP');
@@ -111,7 +111,7 @@ test('replace is idempotent when target no longer exists', function () {
 });
 
 test('replace returns false if target not found', function () {
-    $path = createTempFile("Hello World");
+    $path = createTempFile('Hello World');
 
     $result = FileModifier::replace($path, 'NotFound', 'New');
 

@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
+use App\Installers\BaseInstaller;
+use App\Installers\BreezeInstaller;
+use App\Installers\ExcelInstaller;
+use App\Installers\FilamentInstaller;
+use App\Installers\LivewireInstaller;
+use App\Installers\QueuesInstaller;
 use App\Installers\SailInstaller;
-use App\Installers\TelescopeInstaller;
 use App\Installers\SanctumInstaller;
 use App\Installers\SpatieActivitylogInstaller;
 use App\Installers\SpatiePermissionInstaller;
-use App\Installers\LivewireInstaller;
-use App\Installers\FilamentInstaller;
-use App\Installers\BreezeInstaller;
-use App\Installers\ExcelInstaller;
-use App\Installers\QueuesInstaller;
+use App\Installers\TelescopeInstaller;
 
 // --- Installer name checks ---
 
@@ -157,7 +158,7 @@ test('queues installer injects schedule entry', function () {
 
     $consolePath = $dir.'/routes/console.php';
     expect(file_exists($consolePath))->toBeTrue();
-    expect(file_get_contents($consolePath))->toContain("queue:prune-failed");
+    expect(file_get_contents($consolePath))->toContain('queue:prune-failed');
 
     deleteTempProject($dir);
 });
@@ -209,11 +210,12 @@ test('installer fails if composer fails', function () {
 
 test('installer succeeds even if artisan publish fails (with warning)', function () {
     $dir = createTempProject();
-    \App\Installers\BaseInstaller::$processRunner = function (array $command) {
+    BaseInstaller::$processRunner = function (array $command) {
         // Fail artisan publish but succeed others
         if (in_array('vendor:publish', $command)) {
             return false;
         }
+
         return true;
     };
 
@@ -228,10 +230,11 @@ test('installer succeeds even if artisan publish fails (with warning)', function
 
 test('installer handles migration failure gracefully', function () {
     $dir = createTempProject();
-    \App\Installers\BaseInstaller::$processRunner = function (array $command) {
+    BaseInstaller::$processRunner = function (array $command) {
         if (in_array('migrate', $command)) {
             return false;
         }
+
         return true;
     };
 

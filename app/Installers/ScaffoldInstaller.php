@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Installers;
 
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Finder\Finder;
 
 use function Laravel\Prompts\info;
-use function Laravel\Prompts\warning;
 
 /**
  * Scaffolds AI context files and installs Laravel Boost.

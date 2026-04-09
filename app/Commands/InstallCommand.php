@@ -19,13 +19,11 @@ use App\Installers\TelescopeInstaller;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Process\Process;
 
-use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\note;
 use function Laravel\Prompts\spin;
 use function Laravel\Prompts\table;
-use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
 
 /**
@@ -130,7 +128,7 @@ class InstallCommand extends Command
         $path = realpath($path) ?: $path;
 
         // --- Step 1: Detect mode ---
-        $isBootstrap = $this->option('bootstrap') || !$this->isLaravelProject($path);
+        $isBootstrap = $this->option('bootstrap') || ! $this->isLaravelProject($path);
 
         if ($isBootstrap) {
             $path = $this->bootstrapNewProject($path);
@@ -157,7 +155,7 @@ class InstallCommand extends Command
         // --- Step 3: Confirmation ---
         $this->displaySummary($selected);
 
-        if (!$this->promptSelection('confirm', 'Proceed with installation?')) {
+        if (! $this->promptSelection('confirm', 'Proceed with installation?')) {
             warning('Installation cancelled.');
 
             return self::SUCCESS;
@@ -190,7 +188,7 @@ class InstallCommand extends Command
      */
     private function isLaravelProject(string $path): bool
     {
-        return file_exists($path . '/artisan');
+        return file_exists($path.'/artisan');
     }
 
     /**
@@ -204,17 +202,17 @@ class InstallCommand extends Command
             options: 'my-laravel-app' // used as placeholder in the helper
         );
 
-        $projectPath = rtrim($basePath, '/') . '/' . $projectName;
+        $projectPath = rtrim($basePath, '/').'/'.$projectName;
 
         $created = spin(
-            callback: fn() => $this->executeShellCommand(
+            callback: fn () => $this->executeShellCommand(
                 ['composer', 'create-project', '--prefer-dist', 'laravel/laravel', $projectPath],
                 timeout: 300
             ),
             message: 'Creating fresh Laravel project...',
         );
 
-        if (!$created) {
+        if (! $created) {
             $this->error("Failed to create Laravel project at {$projectPath}.");
 
             return null;
@@ -253,7 +251,7 @@ class InstallCommand extends Command
             $installer = new $installerClass($path);
 
             $result = spin(
-                callback: fn() => $installer->install(),
+                callback: fn () => $installer->install(),
                 message: "Installing {$installer->name()}...",
             );
 
@@ -299,7 +297,7 @@ class InstallCommand extends Command
             rows: $rows,
         );
 
-        $succeeded = count(array_filter($results, fn($r) => $r['success']));
+        $succeeded = count(array_filter($results, fn ($r) => $r['success']));
         $failed = count($results) - $succeeded;
 
         $this->newLine();
@@ -310,7 +308,7 @@ class InstallCommand extends Command
         }
 
         // --- Step 6: Custom instructions for Laravel Boost ---
-        $composerPath = $path . '/composer.json';
+        $composerPath = $path.'/composer.json';
         if (file_exists($composerPath)) {
             $composer = json_decode(file_get_contents($composerPath), true);
             $allDeps = array_merge($composer['require'] ?? [], $composer['require-dev'] ?? []);

@@ -57,3 +57,19 @@ After every task:
 3. **ALWAYS** update progress.md after completing work
 4. **NEVER** skip error handling
 5. **ALL code comments MUST be in English**
+
+---
+
+## 🧪 Quality Checks
+
+After completing any task, run:
+
+```bash
+# Code style (Pint)
+./vendor/bin/pint
+
+# Static analysis (Larastan)
+./vendor/bin/phpstan analyse
+```
+
+If either fails, fix the issues before considering the task complete.**
