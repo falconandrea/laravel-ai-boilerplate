@@ -37,20 +37,13 @@ class ScaffoldInstaller extends BaseInstaller
         $this->copyDirectory($stubsPath, $this->basePath);
         info('✓ AI context files (.ai/, .agents/) scaffolded.');
 
-        // Step 2: Install Laravel Boost (creates AGENTS.md)
+        // Step 2: Ensure Laravel Boost is required (will be configured at the end of the process)
         if (! $this->alreadyInstalled('laravel/boost')) {
             if (! $this->runComposer('laravel/boost', dev: true)) {
                 $warnings[] = 'Failed to install Laravel Boost via Composer.';
 
                 return $this->result(false, $warnings);
             }
-
-            if (! $this->runArtisan('boost:install')) {
-                $warnings[] = 'boost:install failed. Run it manually.';
-            }
-        } else {
-            info('✓ Laravel Boost already installed, updating context...');
-            $this->runArtisan('boost:update');
         }
 
         return $this->result(true, $warnings);

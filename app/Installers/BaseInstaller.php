@@ -51,10 +51,26 @@ abstract class BaseInstaller
     protected function select(string $label, array $options, string $default = ''): string
     {
         if (static::$promptRunner) {
-            return (static::$promptRunner)($label, $options, $default);
+            return (static::$promptRunner)('select', $label, $options, $default);
         }
 
         return \Laravel\Prompts\select($label, $options, $default);
+    }
+
+    /**
+     * Helper to wrap Laravel Prompts multiselect() for testability.
+     *
+     * @param  array<string, string>  $options
+     * @param  list<string>  $default
+     * @return list<string>
+     */
+    protected function multiselect(string $label, array $options, array $default = []): array
+    {
+        if (static::$promptRunner) {
+            return (static::$promptRunner)('multiselect', $label, $options, $default);
+        }
+
+        return \Laravel\Prompts\multiselect($label, $options, $default);
     }
 
     /**

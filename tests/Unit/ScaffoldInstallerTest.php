@@ -43,7 +43,7 @@ test('scaffold installer copies files and installs boost', function () {
     expect(file_exists($dir.'/.agents/workflows/setup.md'))->toBeTrue();
 
     expect($commands)->toContain('composer require laravel/boost --dev --no-interaction');
-    expect($commands)->toContain('php artisan boost:install');
+    expect($commands)->not->toContain('php artisan boost:install');
 
     deleteTempProject($dir);
 });
@@ -62,7 +62,6 @@ test('scaffold installer updates boost if already installed', function () {
     $result = $installer->install();
 
     expect($result['success'])->toBeTrue();
-    expect($commands)->toContain('php artisan boost:update');
     expect($commands)->not->toContain('composer require laravel/boost --dev --no-interaction');
 
     deleteTempProject($dir);

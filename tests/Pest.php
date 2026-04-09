@@ -13,8 +13,38 @@ uses(TestCase::class)->in('Unit');
  */
 function mockProcesses(bool $success = true, array &$capturedCommands = []): void
 {
-    $runner = function (array $command) use ($success, &$capturedCommands) {
-        $capturedCommands[] = implode(' ', $command);
+    $runner = function (array $command, ?string $cwd = null) use ($success, &$capturedCommands) {
+        $cmdStr = implode(' ', $command);
+        $capturedCommands[] = $cmdStr;
+
+        // Side effect: if 'composer require', simulate updating composer.json
+        if ($success && str_contains($cmdStr, 'composer require') && $cwd) {
+            $composerPath = $cwd.'/composer.json';
+            if (file_exists($composerPath)) {
+                $composer = json_decode(file_get_contents($composerPath), true);
+                $package = null;
+                foreach ($command as $part) {
+                    if (! in_array($part, ['composer', 'require']) && ! str_starts_with($part, '-')) {
+                        $package = $part;
+                        break;
+                    }
+                }
+                if ($package) {
+                    $key = str_contains($cmdStr, '--dev') ? 'require-dev' : 'require';
+                    $composer[$key][$package] = '^1.0';
+                    file_put_contents($composerPath, json_encode($composer));
+                }
+            }
+        }
+
+        // Side effect: if 'composer create-project', simulate artisan file and composer.json
+        if ($success && str_contains($cmdStr, 'create-project') && ! str_contains($cmdStr, '--version')) {
+            $projectPath = end($command);
+            @mkdir($projectPath, 0755, true);
+            touch($projectPath.'/artisan');
+            file_put_contents($projectPath.'/composer.json', json_encode(['require' => [], 'require-dev' => []]));
+        }
+
         return $success;
     };
 
@@ -27,7 +57,7 @@ function mockProcesses(bool $success = true, array &$capturedCommands = []): voi
  */
 function fakePrompts(array $answers): void
 {
-    \App\Installers\BaseInstaller::$promptRunner = function (string $label, array $options, string $default) use (&$answers) {
+    \App\Installers\BaseInstaller::$promptRunner = function (string $type, string $label, array $options, mixed $default) use (&$answers) {
         return array_shift($answers) ?? $default;
     };
 }

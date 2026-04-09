@@ -9,11 +9,10 @@ test('install command runs full interactive flow successfully', function () {
     $commands = [];
     mockProcesses(true, $commands);
     
-    // 1. Multiselect: scaffold, sail
-    // 2. Confirm: true
+    // Command-level prompts
     fakeCommandPrompts([
-        ['scaffold', 'sail'],
-        true
+        ['scaffold', 'sail'], // Components
+        true,                 // Confirm
     ]);
 
     // Create a dummy artisan file to simulate a Laravel project
@@ -23,10 +22,8 @@ test('install command runs full interactive flow successfully', function () {
         ->assertExitCode(0);
 
     // Verify installers were called
-    // ScaffoldInstaller copies files and runs boost:install
-    // SailInstaller runs composer require and sail:install
     expect($commands)->toContain('composer require laravel/boost --dev --no-interaction');
-    expect($commands)->toContain('php artisan boost:install');
+    expect($commands)->not->toContain('php artisan boost:install');
     expect($commands)->toContain('composer require laravel/sail --dev --no-interaction');
     expect($commands)->toContain('php artisan sail:install --with=mysql,redis,meilisearch,mailpit,selenium');
 
@@ -38,13 +35,11 @@ test('install command handles bootstrap mode for new projects', function () {
     $commands = [];
     mockProcesses(true, $commands);
     
-    // 1. Project name: my-new-app
-    // 2. Multiselect: scaffold
-    // 3. Confirm: true
+    // Command-level prompts
     fakeCommandPrompts([
         'my-new-app',
         ['scaffold'],
-        true
+        true,
     ]);
 
     $this->artisan('install', ['path' => $dir])

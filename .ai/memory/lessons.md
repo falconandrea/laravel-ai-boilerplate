@@ -46,6 +46,14 @@
 **Prevention**: Always allow configurable timeouts for long-running shell processes in installer tools.
 **Files involved**: `BaseInstaller.php`.
 
+### 2026-04-09 - Testing - Updated Prompt Runner Signature
+**What went wrong**: Changing the `BaseInstaller::$promptRunner` signature broke existing tests with a `TypeError`.
+**Root cause**: The tests in `Pest.php` were using a closure with the old 3-argument signature, while the new code was passing 4 arguments (including the prompt type).
+**Impact**: All tests involving prompts failed.
+**Solution**: Updated `fakePrompts` and `fakeCommandPrompts` in `tests/Pest.php` to accept the `$type` argument.
+**Prevention**: When changing core shared utility signatures, always check the global test helpers first.
+**Files involved**: `BaseInstaller.php`, `tests/Pest.php`.
+
 ---
 
 ## 📊 Lesson Categories

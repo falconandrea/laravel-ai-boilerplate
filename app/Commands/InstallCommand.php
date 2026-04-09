@@ -124,13 +124,13 @@ class InstallCommand extends Command
 
     public function handle(): int
     {
-        $this->printBanner();
+        $this->displayBanner();
 
         $path = $this->argument('path') ?? getcwd();
         $path = realpath($path) ?: $path;
 
         // --- Step 1: Detect mode ---
-        $isBootstrap = $this->option('bootstrap') || ! $this->isLaravelProject($path);
+        $isBootstrap = $this->option('bootstrap') || !$this->isLaravelProject($path);
 
         if ($isBootstrap) {
             $path = $this->bootstrapNewProject($path);
@@ -157,7 +157,7 @@ class InstallCommand extends Command
         // --- Step 3: Confirmation ---
         $this->displaySummary($selected);
 
-        if (! $this->promptSelection('confirm', 'Proceed with installation?')) {
+        if (!$this->promptSelection('confirm', 'Proceed with installation?')) {
             warning('Installation cancelled.');
 
             return self::SUCCESS;
@@ -166,11 +166,8 @@ class InstallCommand extends Command
         // --- Step 4: Run installers ---
         $results = $this->runInstallers($selected, $path);
 
-        // --- Step 5: Update Boost context if installed ---
-        $this->refreshBoost($path);
-
-        // --- Step 6: Final report ---
-        $this->displayResults($results);
+        // --- Step 5: Final report ---
+        $this->displayResults($results, $path);
 
         return self::SUCCESS;
     }
@@ -178,54 +175,50 @@ class InstallCommand extends Command
     /**
      * Print the CLI banner.
      */
-    private function printBanner(): void
+    private function displayBanner(): void
     {
         $this->newLine();
         $this->line('<fg=cyan;options=bold>  ╔══════════════════════════════════════════╗</>');
         $this->line('<fg=cyan;options=bold>  ║    Laravel Boilerplate CLI               ║</>');
-        $this->line('<fg=cyan;options=bold>  ║    Interactive project configurator       ║</>');
+        $this->line('<fg=cyan;options=bold>  ║    Interactive project configurator      ║</>');
         $this->line('<fg=cyan;options=bold>  ╚══════════════════════════════════════════╝</>');
         $this->newLine();
     }
 
     /**
-     * Check if the given path contains a Laravel project (artisan file).
+     * Check if the path is a Laravel project.
      */
     private function isLaravelProject(string $path): bool
     {
-        return file_exists($path.'/artisan');
+        return file_exists($path . '/artisan');
     }
 
     /**
-     * Bootstrap a new Laravel project, returning the project path or null on failure.
+     * Create a new Laravel project using composer.
      */
     private function bootstrapNewProject(string $basePath): ?string
     {
-        info('No existing Laravel project detected. Starting bootstrap mode...');
-
         $projectName = $this->promptSelection(
             type: 'text',
-            label: 'Project name',
+            label: 'What is your project name?',
             options: 'my-laravel-app' // used as placeholder in the helper
         );
 
-        $projectPath = rtrim($basePath, '/').'/'.$projectName;
+        $projectPath = rtrim($basePath, '/') . '/' . $projectName;
 
         $created = spin(
-            callback: fn () => $this->executeShellCommand(
+            callback: fn() => $this->executeShellCommand(
                 ['composer', 'create-project', '--prefer-dist', 'laravel/laravel', $projectPath],
                 timeout: 300
             ),
-            message: "Creating Laravel project '{$projectName}'...",
+            message: 'Creating fresh Laravel project...',
         );
 
-        if (! $created) {
+        if (!$created) {
             $this->error("Failed to create Laravel project at {$projectPath}.");
 
             return null;
         }
-
-        info("✓ Laravel project created at: {$projectPath}");
 
         return $projectPath;
     }
@@ -248,10 +241,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * Run each selected installer, collecting results.
-     *
-     * @param  list<string>  $selected
-     * @return list<array{name: string, success: bool, warnings: list<string>}>
+     * Run all selected installers.
      */
     private function runInstallers(array $selected, string $path): array
     {
@@ -259,12 +249,11 @@ class InstallCommand extends Command
 
         foreach ($selected as $key) {
             $installerClass = $this->installerMap[$key];
-
             /** @var BaseInstaller $installer */
             $installer = new $installerClass($path);
 
             $result = spin(
-                callback: fn () => $installer->install(),
+                callback: fn() => $installer->install(),
                 message: "Installing {$installer->name()}...",
             );
 
@@ -293,7 +282,7 @@ class InstallCommand extends Command
      *
      * @param  list<array{name: string, success: bool, warnings: list<string>}>  $results
      */
-    private function displayResults(array $results): void
+    private function displayResults(array $results, string $path): void
     {
         $this->newLine();
         note('Installation Summary');
@@ -310,7 +299,7 @@ class InstallCommand extends Command
             rows: $rows,
         );
 
-        $succeeded = count(array_filter($results, fn ($r) => $r['success']));
+        $succeeded = count(array_filter($results, fn($r) => $r['success']));
         $failed = count($results) - $succeeded;
 
         $this->newLine();
@@ -319,38 +308,21 @@ class InstallCommand extends Command
         if ($failed > 0) {
             warning("{$failed} component(s) had issues. Review the notes above.");
         }
-    }
 
-    /**
-     * Run boost:update if Laravel Boost is installed in the target project.
-     * This ensures Boost discovers newly installed packages and updates AGENTS.md.
-     */
-    private function refreshBoost(string $path): void
-    {
-        $composerPath = $path.'/composer.json';
-        if (! file_exists($composerPath)) {
-            return;
-        }
+        // --- Step 6: Custom instructions for Laravel Boost ---
+        $composerPath = $path . '/composer.json';
+        if (file_exists($composerPath)) {
+            $composer = json_decode(file_get_contents($composerPath), true);
+            $allDeps = array_merge($composer['require'] ?? [], $composer['require-dev'] ?? []);
 
-        $composer = json_decode(file_get_contents($composerPath), true);
-        $allDeps = array_merge($composer['require'] ?? [], $composer['require-dev'] ?? []);
-
-        if (! isset($allDeps['laravel/boost'])) {
-            return;
-        }
-
-        info('Updating Laravel Boost context for newly installed packages...');
-
-        $success = $this->executeShellCommand(
-            ['php', 'artisan', 'boost:update'],
-            $path,
-            120
-        );
-
-        if ($success) {
-            info('✓ Boost context updated.');
-        } else {
-            warning('boost:update failed. Run `php artisan boost:update` manually.');
+            if (isset($allDeps['laravel/boost'])) {
+                $projectName = basename($path);
+                $this->newLine();
+                note('NEXT STEPS: Finish Laravel Boost configuration');
+                $this->line("  1. Run: <fg=cyan>cd {$projectName}</>");
+                $this->line('  2. Run: <fg=cyan>php artisan boost:install</>');
+                $this->newLine();
+            }
         }
     }
 }

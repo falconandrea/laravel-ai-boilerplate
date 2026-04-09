@@ -35,6 +35,12 @@
 - [x] 2.8 Verified CLI boots and commands are discoverable
 - [x] 2.9 Achieved 83% test coverage for all installers and commands
 - [x] 2.10 Fixed `ProcessTimedOutException` by removing hardcoded 300s timeout in `BaseInstaller`
+- [x] Enhanced `ScaffoldInstaller` with interactive Laravel Boost configuration
+- [x] Added `multiselect` helper to `BaseInstaller` for better installer interactivity
+- [x] Optimized Laravel Boost flow: Implemented manual handoff (Option 2) with instructions at the end
+- [x] Removed internal configuration prompts to leave Boost setup to the official installer
+- [x] Enhanced `mockProcesses` in `Pest.php` for better side-effect simulation in tests
+- [x] Updated all tests to match the new flow (76 passing)
 
 ---
 
