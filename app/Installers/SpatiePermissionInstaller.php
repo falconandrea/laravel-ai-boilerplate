@@ -27,7 +27,7 @@ class SpatiePermissionInstaller extends BaseInstaller
             return $this->result(false, ['Failed to install Spatie Permission via Composer.']);
         }
 
-        if (! $this->runArtisan('vendor:publish --provider="Spatie\\Permission\\PermissionServiceProvider" --tag="migrations"')) {
+        if (! $this->runArtisan('vendor:publish --provider="Spatie\\Permission\\PermissionServiceProvider" --tag="permission-migrations"')) {
             $warnings[] = 'vendor:publish for Permission failed. Run it manually.';
         }
 
