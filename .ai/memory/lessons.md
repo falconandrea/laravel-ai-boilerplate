@@ -61,6 +61,14 @@
 **Benefit**: Tests are now much more realistic and easier to write, as follow-on logic correctly "sees" the results of mock installer runs.
 **Files involved**: `tests/Pest.php`.
 
+### 2026-04-09 - Architecture - Process Argument Escaping and Quotes
+**What went wrong**: `vendor:publish` commands for Spatie and other packages failed to publish migrations without showing warnings.
+**Root cause**: `BaseInstaller::runArtisan` used `explode(' ', $command)`, which preserved quotes within arguments (e.g., `"--provider=\"...\""`). Symfony Process then escaped these already-quoted strings, causing Laravel to fail to recognize the provider or tag names.
+**Impact**: Migrations were not published, and since Artisan exited with code 0 (reporting "Nothing to publish"), the CLI didn't show any warnings.
+**Solution**: Refactored `runArtisan()` to accept an array of arguments and updated all installers to use array syntax for commands with complex options.
+**Prevention**: Prefer passing command arguments as arrays rather than strings to avoid brittle string splitting and double-escaping issues.
+**Files involved**: `BaseInstaller.php`, `SpatiePermissionInstaller.php`, `SpatieActivitylogInstaller.php`, `SanctumInstaller.php`, `ExcelInstaller.php`.
+
 ---
 
 ## 📊 Lesson Categories

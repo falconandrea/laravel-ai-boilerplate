@@ -102,6 +102,10 @@ class InstallCommand extends Command
         $process = new Process($command, $cwd, null, null, $timeout);
         $process->run();
 
+        if (! $process->isSuccessful()) {
+            $this->error($process->getErrorOutput());
+        }
+
         return $process->isSuccessful();
     }
 

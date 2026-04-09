@@ -26,7 +26,10 @@ class SanctumInstaller extends BaseInstaller
             return $this->result(false, ['Failed to install Laravel Sanctum via Composer.']);
         }
 
-        if (! $this->runArtisan('vendor:publish --provider="Laravel\\Sanctum\\SanctumServiceProvider"')) {
+        if (! $this->runArtisan([
+            'vendor:publish',
+            '--provider=Laravel\Sanctum\SanctumServiceProvider',
+        ])) {
             $warnings[] = 'vendor:publish for Sanctum failed. Run it manually.';
         }
 

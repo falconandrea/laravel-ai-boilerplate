@@ -90,7 +90,7 @@ test('sanctum installer publishes and migrates', function () {
     $result = $installer->install();
 
     expect($result['success'])->toBeTrue();
-    expect($commands)->toContain('php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"');
+    expect($commands)->toContain('php artisan vendor:publish --provider=Laravel\Sanctum\SanctumServiceProvider');
     expect($commands)->toContain('php artisan migrate --no-interaction');
 
     deleteTempProject($dir);
@@ -122,7 +122,7 @@ test('spatie activitylog installs and migrates', function () {
 
     expect($result['success'])->toBeTrue();
     expect($commands)->toContain('composer require spatie/laravel-activitylog --no-interaction');
-    expect($commands)->toContain('php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="activitylog-migrations"');
+    expect($commands)->toContain('php artisan vendor:publish --provider=Spatie\Activitylog\ActivitylogServiceProvider --tag=activitylog-migrations');
     expect($commands)->toContain('php artisan migrate --no-interaction');
 
     deleteTempProject($dir);
@@ -138,7 +138,7 @@ test('spatie permission installs and migrates', function () {
 
     expect($result['success'])->toBeTrue();
     expect($commands)->toContain('composer require spatie/laravel-permission --no-interaction');
-    expect($commands)->toContain('php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="permission-migrations"');
+    expect($commands)->toContain('php artisan vendor:publish --provider=Spatie\Permission\PermissionServiceProvider --tag=permission-migrations');
     expect($commands)->toContain('php artisan migrate --no-interaction');
 
     deleteTempProject($dir);
@@ -187,7 +187,7 @@ test('excel installer installs and reports success', function () {
 
     expect($result['success'])->toBeTrue();
     expect($commands)->toContain('composer require maatwebsite/excel --no-interaction');
-    expect($commands)->toContain('php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider" --tag=config');
+    expect($commands)->toContain('php artisan vendor:publish --provider=Maatwebsite\Excel\ExcelServiceProvider --tag=config');
 
     deleteTempProject($dir);
 });

@@ -26,7 +26,11 @@ class SpatieActivitylogInstaller extends BaseInstaller
             return $this->result(false, ['Failed to install Spatie Activitylog via Composer.']);
         }
 
-        if (! $this->runArtisan('vendor:publish --provider="Spatie\\Activitylog\\ActivitylogServiceProvider" --tag="activitylog-migrations"')) {
+        if (! $this->runArtisan([
+            'vendor:publish',
+            '--provider=Spatie\Activitylog\ActivitylogServiceProvider',
+            '--tag=activitylog-migrations',
+        ])) {
             $warnings[] = 'vendor:publish for Activitylog failed. Run it manually.';
         }
 

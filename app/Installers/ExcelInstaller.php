@@ -26,7 +26,11 @@ class ExcelInstaller extends BaseInstaller
             return $this->result(false, ['Failed to install Maatwebsite Excel via Composer.']);
         }
 
-        if (! $this->runArtisan('vendor:publish --provider="Maatwebsite\\Excel\\ExcelServiceProvider" --tag=config')) {
+        if (! $this->runArtisan([
+            'vendor:publish',
+            '--provider=Maatwebsite\Excel\ExcelServiceProvider',
+            '--tag=config',
+        ])) {
             $warnings[] = 'vendor:publish for Excel failed. Run it manually.';
         }
 

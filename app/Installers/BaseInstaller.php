@@ -94,17 +94,23 @@ abstract class BaseInstaller
         }
         $command[] = '--no-interaction';
 
-        return $this->runProcess($command, $timeout);
+        return $this->runProcess($command, $timeout)['success'];
     }
 
     /**
      * Run an Artisan command in the target project.
+     *
+     * @param  string|list<string>  $command
      */
-    protected function runArtisan(string $command, ?float $timeout = null): bool
+    protected function runArtisan(string|array $command, ?float $timeout = null): bool
     {
-        $parts = explode(' ', $command);
+        if (is_string($command)) {
+            $parts = explode(' ', $command);
+        } else {
+            $parts = $command;
+        }
 
-        return $this->runProcess(array_merge(['php', 'artisan'], $parts), $timeout);
+        return $this->runProcess(array_merge(['php', 'artisan'], $parts), $timeout)['success'];
     }
 
     /**
@@ -114,9 +120,9 @@ abstract class BaseInstaller
      */
     protected function runMigrations(?float $timeout = null): array
     {
-        $command = ['php', 'artisan', 'migrate', '--no-interaction'];
+        $result = $this->runProcess(['php', 'artisan', 'migrate', '--no-interaction'], $timeout);
 
-        if ($this->runProcess($command, $timeout)) {
+        if ($result['success']) {
             return ['success' => true, 'warning' => null];
         }
 
@@ -200,17 +206,24 @@ abstract class BaseInstaller
 
     /**
      * Run a process in the target project directory.
+     *
+     * @return array{success: bool, output: string}
      */
-    protected function runProcess(array $command, ?float $timeout = null): bool
+    protected function runProcess(array $command, ?float $timeout = null): array
     {
         if (static::$processRunner) {
-            return (static::$processRunner)($command, $this->basePath);
+            $success = (static::$processRunner)($command, $this->basePath);
+
+            return ['success' => (bool) $success, 'output' => ''];
         }
 
         $process = new Process($command, $this->basePath, null, null, $timeout);
         $process->run();
 
-        return $process->isSuccessful();
+        return [
+            'success' => $process->isSuccessful(),
+            'output' => $process->getOutput().$process->getErrorOutput(),
+        ];
     }
 
     /**
