@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Installers;
 
-use App\Support\FileModifier;
-
 /**
  * Installs and configures Spatie Permission (roles & permissions).
  * Adds HasRoles trait to the User model.
@@ -29,7 +27,7 @@ class SpatiePermissionInstaller extends BaseInstaller
             return $this->result(false, ['Failed to install Spatie Permission via Composer.']);
         }
 
-        if (! $this->runArtisan('vendor:publish --provider="Spatie\\Permission\\PermissionServiceProvider"')) {
+        if (! $this->runArtisan('vendor:publish --provider="Spatie\\Permission\\PermissionServiceProvider" --tag="migrations"')) {
             $warnings[] = 'vendor:publish for Permission failed. Run it manually.';
         }
 

@@ -137,7 +137,7 @@ test('spatie permission installs and migrates', function () {
 
     expect($result['success'])->toBeTrue();
     expect($commands)->toContain('composer require spatie/laravel-permission --no-interaction');
-    expect($commands)->toContain('php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"');
+    expect($commands)->toContain('php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"');
     expect($commands)->toContain('php artisan migrate --no-interaction');
 
     deleteTempProject($dir);
