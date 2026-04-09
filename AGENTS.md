@@ -24,6 +24,7 @@
 - **Entry point**: `boilerplate` (PHP CLI script)
 - **Main command**: `install` (`App\Commands\InstallCommand`)
 - **Installers**: `App\Installers\*` — each extends `BaseInstaller`
+- **Interactive Prompts**: Use `multiselect()`, `confirm()`, or `text()` helpers in `BaseInstaller` for UI (ensures testability)
 - **File ops**: `App\Support\FileModifier` — str_replace-based, no regex
 - **Stubs**: `stubs/scaffold/` — template files copied into target projects
 

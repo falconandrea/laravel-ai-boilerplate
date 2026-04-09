@@ -54,6 +54,13 @@
 **Prevention**: When changing core shared utility signatures, always check the global test helpers first.
 **Files involved**: `BaseInstaller.php`, `tests/Pest.php`.
 
+### 2026-04-09 - Testing - Simulating Side-Effects in Mocks
+**Context**: End-of-process configuration (like Laravel Boost) depends on knowing which packages were actually installed by previous steps.
+**The problem**: Using a simple mock for `executeShellCommand` captures the command but does not update the filesystem (e.g., `composer.json` or `artisan` file), making subsequent steps think nothing happened.
+**The solution**: Enhanced `mockProcesses` in `tests/Pest.php` to simulate these side-effects by manually updating `composer.json` and creating the `artisan` file when `composer require` or `create-project` are detected.
+**Benefit**: Tests are now much more realistic and easier to write, as follow-on logic correctly "sees" the results of mock installer runs.
+**Files involved**: `tests/Pest.php`.
+
 ---
 
 ## 📊 Lesson Categories

@@ -117,11 +117,18 @@ These files give any AI agent (Antigravity, OpenCode, Claude Code) persistent me
 
 [Laravel Boost](https://github.com/laravel/boost) creates an `AGENTS.md` file with procedural knowledge of your Laravel project, giving AI agents deep understanding of your codebase.
 
-### 3. Auto-refreshes Boost context
+### 3. Manual Boost Setup (Optional but Recommended)
 
-After **all** selected components are installed, the CLI automatically runs `php artisan boost:update` so that Boost discovers the new packages and updates `AGENTS.md` with relevant skills and context. No manual step needed.
+After all selected components are installed, the CLI will check if you included the Scaffold component. If so, it will provide a **Next Steps** section with the exact commands needed to finalize the [Laravel Boost](https://github.com/laravel/boost) installation:
 
-> **Note**: Files that already exist in your project won't be overwritten — safe to re-run.
+```bash
+cd your-project-name
+php artisan boost:install
+```
+
+This ensures that Boost auto-discovers all newly installed packages and gives you full control over the interactive configuration of your preferred AI agents.
+
+> **Note**: Files that already exist in your project won't be overwritten — it's safe to re-run the CLI at any time.
 
 ---
 
