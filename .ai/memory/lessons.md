@@ -38,6 +38,14 @@
 **Prevention**: Check parent class methods before naming internal helpers in Laravel Command classes.
 **Files involved**: `InstallCommand.php`.
 
+### 2026-04-09 - Infrastructure - Process Timeout Issues
+**What went wrong**: Heavy installations (like Laravel Sail) timed out after 300 seconds.
+**Root cause**: Hardcoded timeout of 300s in `BaseInstaller::runProcess`.
+**Impact**: Installation failed midway with `ProcessTimedOutException`.
+**Solution**: Changed default timeout to `null` (unlimited) and allowed optional override in all run helpers.
+**Prevention**: Always allow configurable timeouts for long-running shell processes in installer tools.
+**Files involved**: `BaseInstaller.php`.
+
 ---
 
 ## 📊 Lesson Categories

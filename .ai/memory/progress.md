@@ -34,6 +34,7 @@
 - [x] Updated TECH_STACK.md
 - [x] 2.8 Verified CLI boots and commands are discoverable
 - [x] 2.9 Achieved 83% test coverage for all installers and commands
+- [x] 2.10 Fixed `ProcessTimedOutException` by removing hardcoded 300s timeout in `BaseInstaller`
 
 ---
 

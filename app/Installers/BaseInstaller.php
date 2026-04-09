@@ -71,7 +71,7 @@ abstract class BaseInstaller
     /**
      * Run a Composer require command.
      */
-    protected function runComposer(string $package, bool $dev = false): bool
+    protected function runComposer(string $package, bool $dev = false, ?float $timeout = null): bool
     {
         $command = ['composer', 'require', $package];
         if ($dev) {
@@ -79,17 +79,17 @@ abstract class BaseInstaller
         }
         $command[] = '--no-interaction';
 
-        return $this->runProcess($command);
+        return $this->runProcess($command, $timeout);
     }
 
     /**
      * Run an Artisan command in the target project.
      */
-    protected function runArtisan(string $command): bool
+    protected function runArtisan(string $command, ?float $timeout = null): bool
     {
         $parts = explode(' ', $command);
 
-        return $this->runProcess(array_merge(['php', 'artisan'], $parts));
+        return $this->runProcess(array_merge(['php', 'artisan'], $parts), $timeout);
     }
 
     /**
@@ -97,11 +97,11 @@ abstract class BaseInstaller
      *
      * @return array{success: bool, warning: string|null}
      */
-    protected function runMigrations(): array
+    protected function runMigrations(?float $timeout = null): array
     {
         $command = ['php', 'artisan', 'migrate', '--no-interaction'];
 
-        if ($this->runProcess($command)) {
+        if ($this->runProcess($command, $timeout)) {
             return ['success' => true, 'warning' => null];
         }
 
@@ -186,13 +186,13 @@ abstract class BaseInstaller
     /**
      * Run a process in the target project directory.
      */
-    protected function runProcess(array $command): bool
+    protected function runProcess(array $command, ?float $timeout = null): bool
     {
         if (static::$processRunner) {
             return (static::$processRunner)($command, $this->basePath);
         }
 
-        $process = new Process($command, $this->basePath, null, null, 300);
+        $process = new Process($command, $this->basePath, null, null, $timeout);
         $process->run();
 
         return $process->isSuccessful();
