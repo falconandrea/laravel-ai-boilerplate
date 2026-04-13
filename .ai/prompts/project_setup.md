@@ -133,7 +133,7 @@ After gathering all information, generate the following files in `.ai/context/`.
 
 ### Files to Generate
 
-1. **`.ai/context/TECH_STACK.md`** — Already populated by `setup-laravel.sh`. Review and update with project-specific versions, database choice, deployment platform, and any additional packages.
+1. **`.ai/context/TECH_STACK.md`** — Review and update with project-specific versions, database choice, deployment platform, and any additional packages.
 
 2. **`.ai/context/PRD.md`** — Product Requirements Document:
    - Overview: brief description of the product

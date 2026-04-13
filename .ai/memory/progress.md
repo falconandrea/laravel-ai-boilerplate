@@ -42,6 +42,7 @@
 - [x] Enhanced `mockProcesses` in `Pest.php` for better side-effect simulation in tests
 - [x] Updated all tests to match the new flow (76 passing)
 - [x] Fixed missing migrations bug by refactoring `BaseInstaller` and installers to use array-based Artisan commands
+- [x] Removed lingering references to legacy `setup-laravel.sh` in `.ai` templates
 
 ---
 
