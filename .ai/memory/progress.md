@@ -43,6 +43,7 @@
 - [x] Updated all tests to match the new flow (76 passing)
 - [x] Fixed missing migrations bug by refactoring `BaseInstaller` and installers to use array-based Artisan commands
 - [x] Removed lingering references to legacy `setup-laravel.sh` in `.ai` templates
+- [x] Removed all references and files for `blockers.md` from `.ai` directory and `stubs`
 
 ---
 
@@ -77,8 +78,7 @@ No active tasks.
 **When starting next session, AI should**:
 1. Read this file first
 2. Review lessons.md for recent learnings
-3. Check blockers.md for any issues
-4. Ask: "Ready to continue?"
+3. Ask: "Ready to continue?"
 
 ---
 

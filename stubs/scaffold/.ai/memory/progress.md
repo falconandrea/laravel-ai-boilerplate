@@ -41,8 +41,6 @@
 **What's left**:
 - [ ] [Remaining work]
 
-**Blockers**: None
-
 ---
 
 ## 📋 Next Up
@@ -67,8 +65,7 @@
 **When starting next session, AI should**:
 1. Read this file first
 2. Review lessons.md for recent learnings
-3. Check blockers.md for any issues
-4. Ask: "Ready to continue with [current task]?"
+3. Ask: "Ready to continue with [current task]?"
 
 ---
 

@@ -93,7 +93,7 @@ The scaffold creates a complete `.ai/` and `.agents/` directory structure:
 your-project/
 ├── .ai/
 │   ├── context/          ← Project docs (TECH_STACK, PRD, APP_FLOW)
-│   ├── memory/           ← AI memory (progress, lessons, blockers)
+│   ├── memory/           ← AI memory (progress, lessons)
 │   ├── features/         ← Feature PRDs and task lists
 │   │   └── _TEMPLATE.md
 │   └── prompts/          ← Ready-to-use AI prompts

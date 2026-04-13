@@ -17,7 +17,6 @@ test('stubs directory exists and contains expected files', function () {
     expect(is_dir($stubsPath))->toBeTrue();
     expect(file_exists($stubsPath.'/.ai/memory/progress.md'))->toBeTrue();
     expect(file_exists($stubsPath.'/.ai/memory/lessons.md'))->toBeTrue();
-    expect(file_exists($stubsPath.'/.ai/memory/blockers.md'))->toBeTrue();
     expect(file_exists($stubsPath.'/.ai/context/TECH_STACK.md'))->toBeTrue();
     expect(file_exists($stubsPath.'/.ai/context/PRD.md'))->toBeTrue();
     expect(file_exists($stubsPath.'/.ai/context/APP_FLOW.md'))->toBeTrue();
