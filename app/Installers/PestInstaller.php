@@ -22,12 +22,18 @@ class PestInstaller extends BaseInstaller
             return $this->result(true, ['Pest is already installed.']);
         }
 
-        if (! $this->runComposer('pestphp/pest --with-all-dependencies', dev: true)) {
+        $result = $this->runProcess([
+            'composer', 'require', 'pestphp/pest',
+            '--dev', '--with-all-dependencies', '--no-interaction',
+        ]);
+
+        if (! $result['success']) {
             return $this->result(false, ['Failed to install Pest via Composer.']);
         }
 
-        if (! $this->runArtisan('pest:install')) {
-            $warnings[] = 'pest:install failed. Run it manually: php artisan pest:install';
+        $init = $this->runProcess(['./vendor/bin/pest', '--init']);
+        if (! $init['success']) {
+            $warnings[] = 'pest --init failed. Run it manually: ./vendor/bin/pest --init';
         }
 
         return $this->result(true, $warnings);
