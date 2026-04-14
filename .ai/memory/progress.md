@@ -4,13 +4,13 @@
 
 ---
 
-**Last Updated**: 2026-04-08
+**Last Updated**: 2026-04-14
 
 **Current Phase**: Development
 
 **Active Branch**: main
 
-**Currently Working On**: Laravel Zero CLI Refactor — completed
+**Currently Working On**: Quality Tools Installers — completed
 
 ---
 
@@ -44,6 +44,15 @@
 - [x] Fixed missing migrations bug by refactoring `BaseInstaller` and installers to use array-based Artisan commands
 - [x] Removed lingering references to legacy `setup-laravel.sh` in `.ai` templates
 - [x] Removed all references and files for `blockers.md` from `.ai` directory and `stubs`
+
+### Phase 3: Quality Tools Installers
+- [x] Created `PintInstaller` (composer require laravel/pint --dev)
+- [x] Created `LarastanInstaller` (composer require larastan/larastan --dev + phpstan.neon.dist)
+- [x] Created `PestInstaller` (composer require pestphp/pest --dev + pest:install)
+- [x] Registered all three in `InstallCommand` ($installerMap, $labels)
+- [x] Added default preselection for Scaffold, Pint, Larastan in multiselect prompt
+- [x] Fixed `promptSelection` to forward default values to `multiselect`
+- [x] All 76 tests passing, Pint clean, PHPStan 0 errors
 
 ---
 

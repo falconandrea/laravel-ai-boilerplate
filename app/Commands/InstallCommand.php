@@ -8,7 +8,10 @@ use App\Installers\BaseInstaller;
 use App\Installers\BreezeInstaller;
 use App\Installers\ExcelInstaller;
 use App\Installers\FilamentInstaller;
+use App\Installers\LarastanInstaller;
 use App\Installers\LivewireInstaller;
+use App\Installers\PestInstaller;
+use App\Installers\PintInstaller;
 use App\Installers\QueuesInstaller;
 use App\Installers\SailInstaller;
 use App\Installers\SanctumInstaller;
@@ -48,6 +51,9 @@ class InstallCommand extends Command
      */
     private array $installerMap = [
         'scaffold' => ScaffoldInstaller::class,
+        'pint' => PintInstaller::class,
+        'larastan' => LarastanInstaller::class,
+        'pest' => PestInstaller::class,
         'sail' => SailInstaller::class,
         'telescope' => TelescopeInstaller::class,
         'sanctum' => SanctumInstaller::class,
@@ -67,17 +73,27 @@ class InstallCommand extends Command
      */
     private array $labels = [
         'scaffold' => '⭐ Scaffold AI Context + Laravel Boost',
-        'sail' => 'Laravel Sail (Docker dev environment)',
-        'telescope' => 'Laravel Telescope (Debug assistant)',
-        'sanctum' => 'Laravel Sanctum (API authentication)',
-        'activitylog' => 'Spatie Activitylog (User activity logging)',
-        'permission' => 'Spatie Permission (Roles & permissions)',
-        'livewire' => 'Livewire (Reactive components)',
-        'filament' => 'Filament (Admin panel)',
-        'breeze' => 'Laravel Breeze (Starter kit with auth)',
-        'excel' => 'Maatwebsite Excel (Import/Export)',
-        'queues' => 'Database Queues (Schedule setup)',
+        'pint' => '🎨 Laravel Pint (Code style fixer)',
+        'larastan' => '🔍 Larastan (Static analysis)',
+        'pest' => '🧪 Pest (Testing framework)',
+        'sail' => '🐳 Laravel Sail (Docker dev environment)',
+        'telescope' => '🔭 Laravel Telescope (Debug assistant)',
+        'sanctum' => '🔐 Laravel Sanctum (API authentication)',
+        'activitylog' => '📋 Spatie Activitylog (User activity logging)',
+        'permission' => '🛡️ Spatie Permission (Roles & permissions)',
+        'livewire' => '⚡ Livewire (Reactive components)',
+        'filament' => '🏗️ Filament (Admin panel)',
+        'breeze' => '🌬️ Laravel Breeze (Starter kit with auth)',
+        'excel' => '📊 Maatwebsite Excel (Import/Export)',
+        'queues' => '📬 Database Queues (Schedule setup)',
     ];
+
+    /**
+     * Components that should be pre-selected by default.
+     *
+     * @var list<string>
+     */
+    private array $defaultSelections = ['scaffold', 'pint', 'larastan'];
 
     /**
      * A callback to intercept and mock process execution during tests.
@@ -116,7 +132,7 @@ class InstallCommand extends Command
         }
 
         return match ($type) {
-            'multiselect' => \Laravel\Prompts\multiselect($label, $options),
+            'multiselect' => \Laravel\Prompts\multiselect($label, $options, $default ?? []),
             'confirm' => \Laravel\Prompts\confirm($label, $default ?? true),
             'text' => \Laravel\Prompts\text($label, $options ?? '', required: true),
             'select' => \Laravel\Prompts\select($label, $options, $default),
@@ -147,7 +163,8 @@ class InstallCommand extends Command
         $selected = $this->promptSelection(
             type: 'multiselect',
             label: 'Which components do you want to install?',
-            options: $this->labels
+            options: $this->labels,
+            default: $this->defaultSelections
         );
 
         if (empty($selected)) {
