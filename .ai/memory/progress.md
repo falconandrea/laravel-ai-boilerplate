@@ -4,7 +4,7 @@
 
 ---
 
-**Last Updated**: 2026-04-14
+**Last Updated**: 2026-04-30
 
 **Current Phase**: Development
 
@@ -45,13 +45,14 @@
 - [x] Removed lingering references to legacy `setup-laravel.sh` in `.ai` templates
 - [x] Removed all references and files for `blockers.md` from `.ai` directory and `stubs`
 
-### Phase 3: Quality Tools Installers
+### Phase 3: Quality Tools & UI Enhancements
 - [x] Created `PintInstaller` (composer require laravel/pint --dev)
 - [x] Created `LarastanInstaller` (composer require larastan/larastan --dev + phpstan.neon.dist)
 - [x] Created `PestInstaller` (composer require pestphp/pest --dev + pest:install)
 - [x] Registered all three in `InstallCommand` ($installerMap, $labels)
 - [x] Added default preselection for Scaffold, Pint, Larastan in multiselect prompt
 - [x] Fixed `promptSelection` to forward default values to `multiselect`
+- [x] Added **Verbose Mode** (`-v`, `-vv`) to show real-time process output
 - [x] All 76 tests passing, Pint clean, PHPStan 0 errors
 
 ---

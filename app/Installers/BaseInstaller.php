@@ -205,6 +205,21 @@ abstract class BaseInstaller
     }
 
     /**
+     * Whether to show detailed output of shell commands.
+     */
+    protected bool $verbose = false;
+
+    /**
+     * Enable or disable verbose mode.
+     */
+    public function withVerbose(bool $verbose = true): self
+    {
+        $this->verbose = $verbose;
+
+        return $this;
+    }
+
+    /**
      * Run a process in the target project directory.
      *
      * @return array{success: bool, output: string}
@@ -218,7 +233,14 @@ abstract class BaseInstaller
         }
 
         $process = new Process($command, $this->basePath, null, null, $timeout);
-        $process->run();
+
+        if ($this->verbose) {
+            $process->run(function ($type, $buffer) {
+                fwrite(STDOUT, $buffer);
+            });
+        } else {
+            $process->run();
+        }
 
         return [
             'success' => $process->isSuccessful(),

@@ -265,16 +265,23 @@ class InstallCommand extends Command
     private function runInstallers(array $selected, string $path): array
     {
         $results = [];
+        $isVerbose = $this->output->isVerbose();
 
         foreach ($selected as $key) {
             $installerClass = $this->installerMap[$key];
             /** @var BaseInstaller $installer */
             $installer = new $installerClass($path);
 
-            $result = spin(
-                callback: fn () => $installer->install(),
-                message: "Installing {$installer->name()}...",
-            );
+            if ($isVerbose) {
+                $installer->withVerbose(true);
+                $this->line("<fg=cyan>Installing {$installer->name()}...</>");
+                $result = $installer->install();
+            } else {
+                $result = spin(
+                    callback: fn () => $installer->install(),
+                    message: "Installing {$installer->name()}...",
+                );
+            }
 
             $results[] = [
                 'name' => $installer->name(),
