@@ -11,6 +11,7 @@ A **Laravel Zero** CLI application to interactively bootstrap and configure Lara
 - **Modular**: Each package installer is a self-contained PHP class — easy to add new ones.
 - **Idempotent**: Safe to re-run; won't duplicate changes already applied.
 - **Distributable**: Compile to a single `.phar` file.
+- **Verbose Mode**: Use `-v` or `-vv` to see real-time output of all background processes (Composer, Artisan, etc.).
 
 ---
 
@@ -60,6 +61,9 @@ composer install
 ```bash
 cd /path/to/your-laravel-project
 php /path/to/boilerplate-cli/boilerplate install
+
+# Use verbose mode to see real-time installation output
+php /path/to/boilerplate-cli/boilerplate install -v
 ```
 
 #### Bootstrap mode (create a new project from scratch)

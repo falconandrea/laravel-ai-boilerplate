@@ -28,7 +28,7 @@
 - [x] 2.4 Implemented all 10 installers (Sail, Telescope, Sanctum, Activitylog, Permission, Livewire, Filament, Breeze, Excel, Queues)
 - [x] Create dedicated `ScaffoldInstaller`
 - [x] Clean up legacy Bash scripts and redundant configuration files
-- [x] Update project documentation (README.md, .ai/ context)
+- [x] Update project documentation (README.md, .ai/ context) - Added Verbose Mode info
 - [x] Implement comprehensive test suite (Unit, Feature) with Pest
 - [x] Setup PCOV coverage reporting (30%+ coverage achieved)
 - [x] Updated TECH_STACK.md
